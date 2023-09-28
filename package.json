@@ -1,0 +1,23 @@
+{
+  "name": "com.community.netcode.transport.azure-webpubsub",
+  "displayName": "Azure Web PubSub Transport for Netcode for GameObjects",
+  "version": "0.1.0",
+  "unity": "2021.3",
+  "description": "Azure Web PubSub Transport for Netcode for GameObjects",
+  "author": "wanl@microsoft.com",
+  "dependencies": {
+    "com.unity.netcode.gameobjects": "1.2.0"
+  },
+  "keywords": [
+    "Azure",
+    "Web PubSub",
+    "Realtime",
+    "WebSockets",
+    "Scalability",
+    "High availability",
+    "monitoring",
+    "Livetrace",
+    "Private link",
+    "Auto-reconnect"
+  ]
+}

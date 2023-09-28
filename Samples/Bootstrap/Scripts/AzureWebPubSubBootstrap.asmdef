@@ -1,0 +1,19 @@
+{
+	"name": "AzureWebPubSubBootstrap",
+	"rootNamespace": "AzureWebPubSubTransportSample",
+	"references": [
+		"Unity.Netcode.Runtime",
+		"Unity.Networking.Transport",
+		"Bootstrap",
+		"Azure Web PubSub Transport for Netcode for GameObjects"
+	],
+	"includePlatforms": [],
+	"excludePlatforms": [],
+	"allowUnsafeCode": false,
+	"overrideReferences": false,
+	"precompiledReferences": [],
+	"autoReferenced": true,
+	"defineConstraints": [],
+	"versionDefines": [],
+	"noEngineReferences": false
+}
