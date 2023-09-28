@@ -1,2 +1,4 @@
 # azure-web-pubsub-transport
-A Community Transport for Unity Netcode for GameObjects. Based on Websocket. Support WebGL. Use Azure Web PubSub service. Easy to deploy to Azure. 
+> This repo is still in building.
+> Quick start: https://www.youtube.com/watch?v=-0LlnojcMCs
+> Check out https://github.com/albertxavier100/unity-multiplayer-azure-solution/releases/tag/0.1.0
