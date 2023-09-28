@@ -16,8 +16,8 @@ What's more, with managed Azure Web PubSub service, you can have scalability, hi
 
 Azure provides free SKU to create Web PubSub. Feel free to create one.
 
-  [Quickstart: Create a Web PubSub instance from Azure portal](https://learn.microsoft.com/azure/azure-web-pubsub/howto-develop-create-instance)
-  [Quickstart: Create a Web PubSub instance with Azure CLI](https://learn.microsoft.com/azure/azure-web-pubsub/quickstart-cli-create)
+  - [Quickstart: Create a Web PubSub instance from Azure portal](https://learn.microsoft.com/azure/azure-web-pubsub/howto-develop-create-instance)
+  - [Quickstart: Create a Web PubSub instance with Azure CLI](https://learn.microsoft.com/azure/azure-web-pubsub/quickstart-cli-create)
 
 ## Setup Unity
 
@@ -37,8 +37,7 @@ Optional:
 6. Get listening URL in console log. For example: `Now listening on: https://localhost:7172`
 
 ### C. Setup Transport
-
-1. Download latest `azure-webpubsub-transport.unitypackage` from `Releases`.
+1. Download latest `azure-webpubsub-transport.unitypackage`package from `[Releases](https://github.com/albertxavier100/azure-web-pubsub-transport/releases)`.
 2. Import `azure-webpubsub-transport.unitypackage` to your Unity project.
 3. Add `AzureWebPubSubTransport` component to your GameObject containing your NetworkManager.
 4. Set the `Network Transport` field on the NetworkManager to the `AzureWebPubSubTransport`.
