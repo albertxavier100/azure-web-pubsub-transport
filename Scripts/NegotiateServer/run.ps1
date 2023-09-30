@@ -1,0 +1,2 @@
+# e.g. docker run --rm -it -p 5289:80 -e ConnectionString="xxx" -e Hub="unity_hub"  awps-negotiate-server:v0.1.1 
+docker run --rm -it -p HOST_PORT:CONTAINER_PORT -e ConnectionString=CONNECTION_STRING -e Hub=HUB IMAGE
