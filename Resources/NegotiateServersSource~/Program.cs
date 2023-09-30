@@ -25,8 +25,9 @@ namespace Netcode.Transports.Azure.RealtimeMessaging.WebPubSub.NegotiateServer.S
                     policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                 });
             });
-            var hub = builder.Configuration.GetSection("Hub").Get<string>();
-            var connectionString = builder.Configuration.GetSection("ConnectionString").Get<string>();
+
+            var hub = GetValue("Hub", builder.Configuration);
+            var connectionString = GetValue("ConnectionString", builder.Configuration);
             var serviceClient = new WebPubSubServiceClient(connectionString, hub);
 
             // Add services for transport
@@ -52,6 +53,13 @@ namespace Netcode.Transports.Azure.RealtimeMessaging.WebPubSub.NegotiateServer.S
             app.MapControllers();
 
             app.Run();
+        }
+
+        private static string? GetValue(string key, IConfiguration configuration)
+        {
+            var val = Environment.GetEnvironmentVariable(key);
+            val ??= configuration.GetSection(key).Get<string>();
+            return val;
         }
     }
 }

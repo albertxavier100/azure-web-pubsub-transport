@@ -8,7 +8,6 @@ RUN dotnet restore
 
 # copy everything else
 COPY ./Resources/NegotiateServersSource~/. .
-
 WORKDIR /root/Runtime/Models
 COPY ./Runtime/Models/. .
 
