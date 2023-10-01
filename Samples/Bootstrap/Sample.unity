@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d7cb2b406cb884f9576d722dde3f7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NegotiateEndpoint: https://localhost:7172/negotiate
+  NegotiateEndpoint: http://localhost:5289/negotiate
   RoomId: DefaultRoom
 --- !u!1 &2011451347
 GameObject:
