@@ -2,8 +2,6 @@ using Azure.Messaging.WebPubSub.Clients;
 using Cysharp.Threading.Tasks;
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -36,7 +34,7 @@ namespace Netcode.Transports.AzureWebPubSub
                 {
                     Debug.LogWarning($"Unsupported channel: {message.Group}");
                 }
-                var data = JsonSerializer.Deserialize<GroupData>(message.Data, JsonSerializerOptions);
+                var data = Deserialize<GroupData>(message.Data.ToString());
                 if (data.NetworkEvent == NetworkEvent.Connect || data.NetworkEvent == NetworkEvent.Disconnect)
                 {
                     return HandleClientConnectivityMessage(data);
@@ -109,7 +107,7 @@ namespace Netcode.Transports.AzureWebPubSub
 
         private Task HandleClientDataMessage(GroupDataMessage message)
         {
-            var groupData = JsonSerializer.Deserialize<GroupData>(message.Data, JsonSerializerOptions);
+            var groupData = Deserialize<GroupData>(message.Data.ToString());
             NetworkDataEventReceived?.Invoke(groupData);
             return Task.CompletedTask;
         }

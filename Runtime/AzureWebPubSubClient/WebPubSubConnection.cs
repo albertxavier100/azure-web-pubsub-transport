@@ -1,7 +1,7 @@
 using Azure.Messaging.WebPubSub.Clients;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json;
 using System;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 #if UNITY_WEBGL && !UNITY_EDITOR
 
 using AOT;
+using Newtonsoft.Json.Linq;
 using System.Runtime.InteropServices;
 
 #endif
@@ -22,12 +23,6 @@ namespace Netcode.Transports.AzureWebPubSub
         public ConnectionState State { get; protected set; }
 
         protected NegotiateResponse Negotiation { get; private set; }
-
-        protected JsonSerializerOptions JsonSerializerOptions => new()
-        {
-            IgnoreNullValues = true,
-            PropertyNameCaseInsensitive = true,
-        };
 
         protected ConnectionOptions Options { get; set; }
 
@@ -50,6 +45,16 @@ namespace Netcode.Transports.AzureWebPubSub
 
         public WebPubSubConnection()
         {
+        }
+
+        protected static string Serialize(object obj)
+        {
+            return JsonConvert.SerializeObject(obj);
+        }
+
+        protected static T Deserialize<T>(string str)
+        {
+            return JsonConvert.DeserializeObject<T>(str);
         }
 
 #if UNITY_EDITOR || PLATFORM_SUPPORTS_MONO
@@ -111,7 +116,7 @@ namespace Netcode.Transports.AzureWebPubSub
         {
             try
             {
-                var dataStr = JsonSerializer.Serialize(data);
+                var dataStr = Serialize(data);
                 var content = new BinaryData(dataStr);
 
                 if (State == ConnectionState.Connected)
@@ -138,7 +143,7 @@ namespace Netcode.Transports.AzureWebPubSub
         private async UniTask<Uri> NegotiateAsync()
         {
             var parameters = new NegotiateParameters() { NegotiateType = NegotiateType, RoomId = Options.RoomId };
-            var reqBody = JsonSerializer.Serialize(parameters);
+            var reqBody = Serialize(parameters);
             var jsonToSend = new System.Text.UTF8Encoding().GetBytes(reqBody);
             using var request = UnityWebRequest.Post(Options.NegotiateEndpoint, reqBody);
             using var uploadHandler = new UploadHandlerRaw(jsonToSend);
@@ -152,7 +157,7 @@ namespace Netcode.Transports.AzureWebPubSub
             {
                 try
                 {
-                    Negotiation = JsonSerializer.Deserialize<NegotiateResponse>(content, JsonSerializerOptions);
+                    Negotiation = Deserialize<NegotiateResponse>(content);
                 }
                 catch (Exception ex)
                 {
@@ -160,19 +165,13 @@ namespace Netcode.Transports.AzureWebPubSub
                 }
                 throw new NegotiateException($"Failed to negotiate with endpoint: {Options.NegotiateEndpoint}. {Negotiation.Result}. {Negotiation.Message}. Response status code: [{request.responseCode}]");
             }
-            Negotiation = JsonSerializer.Deserialize<NegotiateResponse>(content, JsonSerializerOptions);
+            Negotiation = Deserialize<NegotiateResponse>(content);
             return new Uri(Negotiation.Url);
         }
 
 #elif UNITY_WEBGL
 
         private static WebPubSubConnection _instance = null;
-
-        private static JsonSerializerOptions _jsonSerializerOptions = new()
-        {
-            IgnoreNullValues = true,
-            PropertyNameCaseInsensitive = true,
-        };
 
         [DllImport("__Internal")]
         private static extern void InitJs(string optionsStr, int negotiateType,
@@ -195,7 +194,7 @@ namespace Netcode.Transports.AzureWebPubSub
         [MonoPInvokeCallback(typeof(Action<string>))]
         private static void UpdateNegotiation(string negotiationStr)
         {
-            _instance.Negotiation = JsonSerializer.Deserialize<NegotiateResponse>(negotiationStr, _jsonSerializerOptions);
+            _instance.Negotiation = Deserialize<NegotiateResponse>(negotiationStr);
         }
 
         [MonoPInvokeCallback(typeof(Action<string>))]
@@ -203,13 +202,13 @@ namespace Netcode.Transports.AzureWebPubSub
         {
             try
             {
-                using var doc = JsonDocument.Parse(argsStr);
-                var messageProp = doc.RootElement.GetProperty("message");
+                var json = JObject.Parse(argsStr);
+                var channel = (string)json["message"]["group"];
+                var sequenceId = (ulong?)json["message"]["sequenceId"];
+                var fromUserId = (string)json["message"]["fromUserId"];
+                var d = (string)json["message"]["data"];
 
-                var channel = messageProp.GetProperty("group").GetString();
-                var sequenceId = messageProp.GetProperty("sequenceId").GetUInt64();
-                var fromUserId = messageProp.GetProperty("fromUserId").GetString();
-                var data = new BinaryData(messageProp.GetProperty("data").GetString());
+                var data = new BinaryData(d);
                 var message = new GroupDataMessage(channel, WebPubSubDataType.Text, data, sequenceId, fromUserId);
 
                 _instance.GroupMessageReceived.Invoke(message);
@@ -225,8 +224,8 @@ namespace Netcode.Transports.AzureWebPubSub
         {
             try
             {
-                using var doc = JsonDocument.Parse(argsStr);
-                var connectionId = doc.RootElement.GetProperty("connectionId").GetString();
+                var json = JObject.Parse(argsStr);
+                var connectionId = (string)json["message"]["connectionId"];
                 _instance.Connected.Invoke(connectionId);
             }
             catch (Exception ex)
@@ -240,9 +239,9 @@ namespace Netcode.Transports.AzureWebPubSub
         {
             try
             {
-                using var doc = JsonDocument.Parse(argsStr);
-                var connectionId = doc.RootElement.GetProperty("connectionId").GetString();
-                var reason = doc.RootElement.GetProperty("disconnectedMessage ").GetProperty("reason").GetString();
+                var json = JObject.Parse(argsStr);
+                var connectionId = (string)json["message"]["connectionId"];
+                var reason = (string)json["message"]["disconnectedMessage"]["reason"];
                 _instance.Disconnected(connectionId, reason);
             }
             catch (Exception ex)
@@ -282,7 +281,7 @@ namespace Netcode.Transports.AzureWebPubSub
             _instance = this;
             Options = options;
             State = ConnectionState.Init;
-            var optionsStr = JsonSerializer.Serialize(options);
+            var optionsStr = Serialize(options);
             InitJs(optionsStr, (int)NegotiateType, GroupMessageReceivedCallback, ConnectedCallback, DisconnectedCallback, StoppedCallback, RejoinGroupFailedCallback, UpdateNegotiation);
         }
 
@@ -300,7 +299,7 @@ namespace Netcode.Transports.AzureWebPubSub
 
         protected UniTask SendEventAsync(string channel, GroupData data)
         {
-            var dataStr = JsonSerializer.Serialize(data);
+            var dataStr = Serialize(data);
             SendEventJs(channel, dataStr);
             return UniTask.CompletedTask;
         }
