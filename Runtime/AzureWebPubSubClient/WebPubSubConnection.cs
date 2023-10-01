@@ -25,6 +25,7 @@ namespace Netcode.Transports.AzureWebPubSub
 
         protected JsonSerializerOptions JsonSerializerOptions => new()
         {
+            IgnoreNullValues = true,
             PropertyNameCaseInsensitive = true,
         };
 
