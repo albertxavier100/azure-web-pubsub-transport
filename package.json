@@ -6,7 +6,8 @@
   "description": "Azure Web PubSub Transport for Netcode for GameObjects",
   "author": "wanl@microsoft.com",
   "dependencies": {
-    "com.unity.netcode.gameobjects": "1.2.0"
+    "com.unity.netcode.gameobjects": "1.2.0",
+    "com.unity.nuget.newtonsoft-json": "3.2.1"
   },
   "keywords": [
     "Azure",

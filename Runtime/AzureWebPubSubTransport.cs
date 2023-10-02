@@ -16,7 +16,7 @@ namespace Netcode.Transports.AzureWebPubSub
     {
         #region Inspector settings
 
-        public string NegotiateEndpoint = "https://localhost:7172/negotiate";
+        public string NegotiateEndpoint = "http://localhost:5289/negotiate";
         public string RoomId = "DefaultRoom";
 
         private ConnectionOptions _options;

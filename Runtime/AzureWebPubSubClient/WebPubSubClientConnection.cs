@@ -1,7 +1,6 @@
 using Azure.Messaging.WebPubSub.Clients;
 using Cysharp.Threading.Tasks;
 using System;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Unity.Netcode;
 using UnityEngine;
@@ -41,7 +40,7 @@ namespace Netcode.Transports.AzureWebPubSub
         {
             try
             {
-                var groupData = JsonSerializer.Deserialize<GroupData>(message.Data, JsonSerializerOptions);
+                var groupData = Deserialize<GroupData>(message.Data.ToString());
                 NetworkDataEventReceived?.Invoke(groupData);
             }
             catch (Exception ex)

@@ -72,3 +72,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
 !Resources/NegotiateServersSource~/*
+
+Resources/NegotiateServersSource~/appsettings.json
+
+Resources/NegotiateServersSource~/wwwroot/
