@@ -6,6 +6,7 @@ WORKDIR /root/Resources/NegotiateServersSource~
 COPY ./Resources/NegotiateServersSource~/AWPSNegotiateServer.csproj .
 RUN dotnet restore
 
+RUN echo "Build Unity app on WebGL platform, and copy to wwwroot folder"
 # copy everything else
 COPY ./Resources/NegotiateServersSource~/. .
 WORKDIR /root/Runtime/Models
