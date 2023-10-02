@@ -225,7 +225,7 @@ namespace Netcode.Transports.AzureWebPubSub
             try
             {
                 var json = JObject.Parse(argsStr);
-                var connectionId = (string)json["message"]["connectionId"];
+                var connectionId = (string)json["connectionId"];
                 _instance.Connected.Invoke(connectionId);
             }
             catch (Exception ex)
@@ -240,8 +240,8 @@ namespace Netcode.Transports.AzureWebPubSub
             try
             {
                 var json = JObject.Parse(argsStr);
-                var connectionId = (string)json["message"]["connectionId"];
-                var reason = (string)json["message"]["disconnectedMessage"]["reason"];
+                var connectionId = (string)json["connectionId"];
+                var reason = (string)json["disconnectedMessage"]["reason"];
                 _instance.Disconnected(connectionId, reason);
             }
             catch (Exception ex)
