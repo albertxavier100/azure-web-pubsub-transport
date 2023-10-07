@@ -76,3 +76,11 @@ crashlytics-build.properties
 Resources/NegotiateServersSource~/appsettings.json
 
 Resources/NegotiateServersSource~/wwwroot/
+
+Resources/NegotiateServersSource~.zip
+
+Resources/NegotiateServersSource~.zip.meta
+
+Resources/NegotiateServersSource~/.vs/
+
+NugetPackagesProject~/NugetPackages/obj/
