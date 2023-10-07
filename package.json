@@ -1,7 +1,7 @@
 {
   "name": "com.community.netcode.transport.azure-webpubsub",
   "displayName": "Azure Web PubSub Transport for Netcode for GameObjects",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "unity": "2021.3",
   "description": "Azure Web PubSub Transport for Netcode for GameObjects",
   "author": "wanl@microsoft.com",
