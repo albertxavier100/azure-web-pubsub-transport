@@ -44,6 +44,7 @@ namespace Netcode.Transports.Azure.RealtimeMessaging.WebPubSub.NegotiateServer.S
             provider.Mappings[".br"] = "application/octet-stream";
             provider.Mappings[".js"] = "application/javascript";
 
+            app.UseDefaultFiles();
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ContentTypeProvider = provider,
