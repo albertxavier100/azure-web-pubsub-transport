@@ -11,7 +11,7 @@ param(
     [string]$UnityWebGLBuildPath
 )
 # Sample command from your Unity project root
-# .\Packages\com.community.netcode.transport.azure-webpubsub/Deploy\Azure\WebGL\WebApp\Scripts\build.ps1 -AzureWebPubSubTransportPackagePath ".\Packages\com.community.netcode.transport.azure-webpubsub"  -ServerOutputPath "Output~" -UnityWebGLBuildPath "Build\WebGL"
+# .\Packages\com.community.netcode.transport.azure-webpubsub\Deploy\Azure\WebGL\WebApp\Scripts\build.ps1 -AzureWebPubSubTransportPackagePath ".\Packages\com.community.netcode.transport.azure-webpubsub"  -ServerOutputPath "Output~" -UnityWebGLBuildPath "Build\WebGL"
 
 # Source paths
 $ServerPackagePath = "$AzureWebPubSubTransportPackagePath/Resources/NegotiateServersSource~.zip"
@@ -49,4 +49,4 @@ dotnet build $ServerTempPath
 dotnet publish $ServerTempPath -o $ServerOutputPath
 
 # Copy Unity build
-Copy-Item -Path $UnityWebGLBuildPath -Destination $WWWRootDestPath -Recurse
+Copy-Item -Path $UnityWebGLBuildPath/* -Destination $WWWRootDestPath -Recurse -Force
