@@ -22,9 +22,7 @@ docker run -p 8080:80  albertxavier100/azure-web-pubsub-transport-sample-unity-n
 
 ### Quickly Deploy Demo to Azure for Free
 
-```
 [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fgithub.com%2Falbertxavier100%2Fazure-web-pubsub-transport%2Ftree%2Fmain%2FDeploy%2FAzure%2FWebGL%2FWebApp)
-```
 
 ## Setup Azure Web PubSub Service
 
